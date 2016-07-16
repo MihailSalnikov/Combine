@@ -1,1 +1,1 @@
-web: bundle exec ruby -S rackup -w config.ru -p 80
+web: bundle exec rackup config.ru -p $PORT
