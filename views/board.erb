@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Board</title>
+	<script type="text/javascript" src="http://vk.com/js/api/openapi.js?122"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+</head>
+<body>
+
+
+	<script type="text/javascript">
+	  VK.init({apiId: <%= Config.new.VKapiID %>});
+	</script>
+
+	<table>
+	<thead>
+		<th>session time</th>
+		<th>vk id</th>	
+		<th>ip</th>
+	</thead>
+	<tbody>
+		<% @users.each_with_index  do |u, i| %>
+				<tr>
+					<td><%= u.time %></td>
+					<td id="vk_user_id_<%= i.to_s %>">
+						<script type="text/javascript">
+					        VK.Api.call('likes.getList', {
+					          	type: 'sitepage',
+							   			owner_id: <%= Config.new.VKapiID %>,
+							   			page_url: "<%= Config.new.domain %>/<%= u.time %>"
+  					        }, function (response) {
+					        	var vkids = response.response.users;
+					        	if (vkids) {
+					            $("#vk_user_id_<%= i.to_s %>").append("<a href='http://vk.com/id"+vkids[0]+"'>"+vkids[0]+"</a>");
+					            // Их может быть много, но должен быть 1
+					            // $("#vk_user_id_<%= i.to_s %>").append("<br>"+vkids.to_String());
+					          }
+					        });		
+						</script>
+					</td>
+					<td><%= u.ip %></td>
+				</tr>
+		<% end %>
+	</tbody>
+	</table>
+
+</body>
+</html>
