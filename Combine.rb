@@ -1,5 +1,3 @@
-# rvmsudo bundle exec ruby -S rackup -w config.ru -p 80
-
 require 'sinatra'
 require 'sinatra/activerecord'
 
@@ -23,4 +21,5 @@ class Combine < Sinatra::Base
 		@current_time = request.path.to_s.gsub!(/[^0-9]/, '').to_i
 		erb :index
 	end
+
 end
