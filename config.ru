@@ -4,8 +4,8 @@ require 'bundler/setup'
 
 Bundler.require
 
-require './Combine'
-require "sinatra/activerecord"
+require_relative 'combine'
+require 'sinatra/activerecord'
 require_relative 'models/user.rb'
 require_relative 'config/config.rb'
 

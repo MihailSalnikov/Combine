@@ -1,2 +1,2 @@
-require "sinatra/activerecord/rake"
-require './Combine'
+require 'sinatra/activerecord/rake'
+require_relative 'combine'
