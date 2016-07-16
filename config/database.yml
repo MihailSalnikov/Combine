@@ -1,4 +1,7 @@
 development:
-  adapter: sqlite3
-  database: db/combine.sqlite3
+  adapter: postgresql
+  database: db/development_combine
 
+production:
+  adapter: postgresql
+  database: db/production_combine

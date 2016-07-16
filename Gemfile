@@ -4,4 +4,8 @@ gem 'sinatra'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'rake'
-gem 'sqlite3'
+
+# gem 'sqlite3'
+gem 'pg'
+
+gem 'thin'
