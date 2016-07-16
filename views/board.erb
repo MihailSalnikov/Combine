@@ -9,7 +9,7 @@
 
 
 	<script type="text/javascript">
-	  VK.init({apiId: <%= Config.new.VKapiID %>});
+	  VK.init({apiId: <%= CONFIG[:vk_api_id] %>});
 	</script>
 
 	<table>
@@ -26,8 +26,8 @@
 						<script type="text/javascript">
 					        VK.Api.call('likes.getList', {
 					          	type: 'sitepage',
-							   			owner_id: <%= Config.new.VKapiID %>,
-							   			page_url: "<%= Config.new.domain %>/<%= u.time %>"
+							   			owner_id: <%= CONFIG[:vk_api_id] %>,
+							   			page_url: "<%= CONFIG[:domain] %>/<%= u.time %>"
   					        }, function (response) {
 					        	var vkids = response.response.users;
 					        	if (vkids) {
