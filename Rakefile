@@ -1,2 +1,3 @@
 require 'sinatra/activerecord/rake'
-require_relative 'combine'
+
+require './combine'
