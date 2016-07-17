@@ -9,13 +9,13 @@
 
 
 	<script type="text/javascript">
-	  VK.init({apiId: <%= Config.new.VKapiID %>});
+	  VK.init({apiId: <%= CONFIG[:vk_api_id] %>});
 	</script>
 
 	<table>
 	<thead>
 		<th>session time</th>
-		<th>vk id</th>	
+		<th>vk id</th>
 		<th>ip</th>
 	</thead>
 	<tbody>
@@ -26,8 +26,8 @@
 						<script type="text/javascript">
 					        VK.Api.call('likes.getList', {
 					          	type: 'sitepage',
-							   			owner_id: <%= Config.new.VKapiID %>,
-							   			page_url: "<%= Config.new.domain %>/<%= u.time %>"
+							   			owner_id: <%= CONFIG[:vk_api_id] %>,
+							   			page_url: "<%= CONFIG[:domain] %>/<%= u.time %>"
   					        }, function (response) {
 					        	var vkids = response.response.users;
 					        	if (vkids) {
@@ -35,7 +35,7 @@
 					            // Их может быть много, но должен быть 1
 					            // $("#vk_user_id_<%= i.to_s %>").append("<br>"+vkids.to_String());
 					          }
-					        });		
+					        });
 						</script>
 					</td>
 					<td><%= u.ip %></td>

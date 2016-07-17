@@ -1,7 +1,11 @@
-development:
+default: &default
   adapter: postgresql
-  database: db/development_combine
+  encoding: unicode
+
+development:
+  <<: *default
+  database: development_combine
 
 production:
-  adapter: postgresql
-  database: db/production_combine
+  <<: *default
+  database: production_combine
