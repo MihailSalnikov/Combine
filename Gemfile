@@ -10,3 +10,5 @@ gem 'rake'
 
 # gem 'sqlite3'
 gem 'pg'
+
+gem 'geoip'

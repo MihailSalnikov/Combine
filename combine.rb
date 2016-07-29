@@ -1,5 +1,7 @@
 require 'sinatra'
 require 'sinatra/activerecord'
+require_relative 'proxy_test'
+require 'geoip'
 
 class Combine < Sinatra::Base
 	register Sinatra::ActiveRecordExtension

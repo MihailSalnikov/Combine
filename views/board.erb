@@ -17,6 +17,10 @@
 		<th>session time</th>
 		<th>vk id</th>
 		<th>ip</th>
+		<th>proxy?</th>
+		<th>real ip</th>
+		<th>proxy location</th>
+		<th>real location</th>
 	</thead>
 	<tbody>
 		<% @users.each_with_index  do |u, i| %>
@@ -39,6 +43,9 @@
 						</script>
 					</td>
 					<td><%= u.ip %></td>
+					<td><%= proxy?(u.ip)%></td>
+					<td></td>
+					<td><%= GeoIP.new('GeoLiteCity.dat').city(u.ip.to_s) %></td>
 				</tr>
 		<% end %>
 	</tbody>
