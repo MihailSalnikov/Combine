@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require_relative 'proxy_test'
+require_relative 'lib/http_proxy_checker'
 require 'geoip'
 
 class Combine < Sinatra::Base
@@ -11,7 +11,7 @@ class Combine < Sinatra::Base
   end
 
   post '/board' do
-    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: proxy?(request.ip))
+    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: HttpProxyChecker.new(CONFIG[:domain], request.ip).proxy?)
     if user.proxy
       # check real ip 
     else
