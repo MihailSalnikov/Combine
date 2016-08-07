@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require_relative 'proxy_test'
+require_relative 'lib/http_proxy_checker'
 require 'geoip'
 
 class Combine < Sinatra::Base
@@ -11,9 +11,11 @@ class Combine < Sinatra::Base
   end
 
   post '/board' do
-    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: proxy?(request.ip))
+    test_uri = URI::HTTP.new("http",nil,CONFIG[:domain],80,nil,"/dummy",nil,nil,nil)
+    is_proxy = HttpProxyChecker.new(test_uri, request.ip).first == true
+    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: is_proxy)
     if user.proxy
-      # check real ip 
+      # check real ip
     else
       user.location = GeoIP.new('GeoLiteCity.dat').city(user.ip).to_s
     end
@@ -25,9 +27,13 @@ class Combine < Sinatra::Base
     erb :board
   end
 
+  get '/dummy' do
+    status 200
+    body Digest::SHA256.hexdigest(CONFIG[:domain])
+  end
+
   get '/:current_time' do
     @current_time = request.path.to_s.gsub!(/[^0-9]/, '').to_i
     erb :index
   end
-
 end
