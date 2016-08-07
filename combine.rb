@@ -11,9 +11,12 @@ class Combine < Sinatra::Base
   end
 
   post '/board' do
-    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: HttpProxyChecker.new(CONFIG[:domain], request.ip).proxy?)
+
+    test_uri = URI::HTTP.new("http",nil,CONFIG[:domain],80,nil,"/",nil,nil,nil)
+    is_proxy = HttpProxyChecker.new(test_uri, request.ip).first == true
+    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: is_proxy)
     if user.proxy
-      # check real ip 
+      # check real ip
     else
       user.location = GeoIP.new('GeoLiteCity.dat').city(user.ip).to_s
     end
