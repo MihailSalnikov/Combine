@@ -36,6 +36,8 @@ GEM
     tilt (2.0.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    whois (3.6.5)
+      activesupport (>= 3)
 
 PLATFORMS
   ruby
@@ -48,6 +50,10 @@ DEPENDENCIES
   rake
   sinatra
   sinatra-activerecord
+  whois (~> 3.0)
+
+RUBY VERSION
+   ruby 2.3.0p0
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

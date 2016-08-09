@@ -11,3 +11,4 @@ gem 'rake'
 gem 'pg'
 
 gem 'geoip'
+gem 'whois', '~> 3.0'

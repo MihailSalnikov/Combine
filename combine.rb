@@ -1,7 +1,10 @@
+require 'net/http'
 require 'sinatra'
 require 'sinatra/activerecord'
 require_relative 'lib/http_proxy_checker'
+require_relative 'lib/get_vk_id'
 require 'geoip'
+
 
 class Combine < Sinatra::Base
   register Sinatra::ActiveRecordExtension
@@ -11,19 +14,13 @@ class Combine < Sinatra::Base
   end
 
   post '/board' do
-    test_uri = URI::HTTP.new("http",nil,CONFIG[:domain],80,nil,"/dummy",nil,nil,nil)
-    is_proxy = HttpProxyChecker.new(test_uri, request.ip).first == true
-    user = User.new(time: params[:current_time], ip: request.ip.to_s, proxy: is_proxy)
-    if user.proxy
-      # check real ip
-    else
-      user.location = GeoIP.new('GeoLiteCity.dat').city(user.ip).to_s
-    end
+    user = User.find(time: params[:current_time])
+    # user.vk_id = get_vk_id(user.ip)
     user.save
   end
 
   get '/board' do
-    @users = User.order('time DESC')
+    @users = User.all.order('time DESC')
     erb :board
   end
 
@@ -34,6 +31,20 @@ class Combine < Sinatra::Base
 
   get '/:current_time' do
     @current_time = request.path.to_s.gsub!(/[^0-9]/, '').to_i
+    
+    if ((User.find_by time: @current_time) == nil)
+      user = User.new(time: @current_time, ip: request.ip.to_s)
+      test_uri = URI::HTTP.new("http",nil,CONFIG[:domain],80,nil,"/dummy",nil,nil,nil)
+      is_proxy = HttpProxyChecker.new(test_uri, request.ip).check.first == true
+      user.proxy = is_proxy
+      if user.proxy
+      # check real ip
+      else
+        user.location = GeoIP.new('GeoLiteCity.dat').city(user.ip).to_s
+      end
+      user.save
+    end
+
     erb :index
   end
 end
