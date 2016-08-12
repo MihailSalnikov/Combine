@@ -45,6 +45,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   geoip
+  json
   pg
   rack
   rake

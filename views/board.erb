@@ -2,32 +2,13 @@
 <html>
 <head>
   <title>Board</title>
-  <script type="text/javascript" src="http://vk.com/js/api/openapi.js?122"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-  <style type="text/css">
-    table {
-      border: 1px solid #ddd;
-    }
-    table td {
-      padding: 8px;
-      padding-right: 15px;
-      line-height: 1.42857143;
-      vertical-align: top;
-      border-top: 1px solid #ddd;
-    }
-    table th {
-      padding-right: 15px;
-    }
-  </style>
+  <script type="text/javascript">
+    
+  </script>
 </head>
 <body>
 
-
-  <script type="text/javascript">
-    VK.init({apiId: <%= CONFIG[:vk_api_id] %>});
-  </script>
-
-  <table>
+  <table class="table table-hover">
   <thead>
     <th>session time</th>
     <th>vk id</th>
@@ -40,23 +21,40 @@
     <% @users.each_with_index  do |u, i| %>
         <tr>
           <td><%= u.time %></td>
-          <td id="vk_user_id_<%= i.to_s %>">
-            <script type="text/javascript">
-                  VK.Api.call('likes.getList', {
-                      type: 'sitepage',
-                      owner_id: <%= CONFIG[:vk_api_id] %>,
-                      page_url: "<%= CONFIG[:domain] %>/<%= u.time %>"
-                    }, function (response) {
-                    var vkids = response.response.users;
-                    if (vkids) {
-                      $("#vk_user_id_<%= i.to_s %>").append("<a href='http://vk.com/id"+vkids[0]+"'>"+vkids[0]+"</a>");
-                      // Их может быть много, но должен быть 1
-                      // $("#vk_user_id_<%= i.to_s %>").append("<br>"+vkids.to_String());
-                    }
-                  });
-            </script>
+          <td><a href="http://vk.com/id<%= u.vk_id.to_s %>" target="_blank"><%= u.vk_id %></a>
           </td>
-          <td><%= u.ip %></td>
+          <td>
+            <%= u.ip %>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#whois_modal_<%= u.time %>">
+              Whois
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="whois_modal_<%= u.time %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Whois <%= u.ip %></h4>
+                  </div>
+                  <div class="modal-body">
+                    <pre id="modal_<%= u.time %>">
+                      
+                    </pre>
+                    <script type="text/javascript">
+                      document.getElementById("modal_<%= u.time %>").innerHTML = JSON.stringify(<%= Whois::Client.new().lookup("188.166.37.155").to_json %>, undefined, 2);
+                    </script>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            </td>
           <td><%= u.proxy %></td>
           <td></td>
           <td><%= u.location %></td>
@@ -64,6 +62,11 @@
     <% end %>
   </tbody>
   </table>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
 </html>

@@ -12,3 +12,4 @@ gem 'pg'
 
 gem 'geoip'
 gem 'whois', '~> 3.0'
+gem 'json'

@@ -54,7 +54,13 @@
 
     VK.Observer.subscribe("widgets.like.liked", function f()
     {
-      $.post( "board", { current_time: <%= @current_time %> } );
+      VK.Api.call('likes.getList', {
+        type: 'sitepage',
+        owner_id: <%= CONFIG[:vk_api_id] %>,
+        page_url: window.location.href
+      },function(response) {
+        $.post("vk_id", {current_time: <%= @current_time %>, vk_id: response.response.users[0]})
+      });
       el.remove();
       $('iframe#vkwidget1_tt').remove();
     });
