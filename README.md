@@ -22,7 +22,7 @@ Change the settings in the config / database.yml if needed
 ##### Start the server on the local host
 Add a local.host to /etc/hosts
     
-    127.0.0.1	localhost
+    127.0.0.1	local.host
 
 Start server
 
