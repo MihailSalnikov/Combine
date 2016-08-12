@@ -42,6 +42,7 @@ class Combine < Sinatra::Base
       else
         user.location = GeoIP.new('GeoLiteCity.dat').city(user.ip).to_s
       end
+      user.user_agent = request.user_agent
       user.save
     end
 

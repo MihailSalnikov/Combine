@@ -16,6 +16,7 @@
     <th>proxy?</th>
     <th>real ip</th>
     <th>proxy location</th>
+    <th>User Agent</th>
   </thead>
   <tbody>
     <% @users.each_with_index  do |u, i| %>
@@ -52,12 +53,11 @@
                 </div>
               </div>
             </div>
-
-
             </td>
           <td><%= u.proxy %></td>
           <td></td>
           <td><%= u.location %></td>
+          <td><%= u.user_agent %></td>
         </tr>
     <% end %>
   </tbody>
