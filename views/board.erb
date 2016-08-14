@@ -12,9 +12,9 @@
   <thead>
     <th>session time</th>
     <th>vk id</th>
-    <th>ip</th>
+    <th>request ip</th>
     <th>proxy?</th>
-    <th>real ip</th>
+    <th>WEB RTC detect</th>
     <th>proxy location</th>
     <th>User Agent</th>
   </thead>
@@ -27,7 +27,7 @@
           <td>
             <%= u.ip %>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#whois_modal_<%= u.time %>">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#whois_modal_<%= u.time %>" style="margin-left: 15px;">
               Whois
             </button>
 
@@ -55,7 +55,13 @@
             </div>
             </td>
           <td><%= u.proxy %></td>
-          <td></td>
+          <td>
+            <ul>
+              <li>local ip: <%= u.local_ip %></li>
+              <li>public ip: <%= u.public_ip %></li>
+              <li>ip v6: <%= u.ipv6 %></li>
+            </ul>
+          </td>
           <td><%= u.location %></td>
           <td><%= u.user_agent %></td>
         </tr>

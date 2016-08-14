@@ -2,7 +2,6 @@ require 'net/http'
 require 'sinatra'
 require 'sinatra/activerecord'
 require_relative 'lib/http_proxy_checker'
-require_relative 'lib/get_vk_id'
 require 'geoip'
 
 
@@ -16,6 +15,19 @@ class Combine < Sinatra::Base
   post '/vk_id' do
     user = User.find_by(time: params[:current_time])
     user.vk_id = params[:vk_id].to_i
+    user.save
+  end
+
+  post '/get_ip' do
+    user = User.find_by(time: params[:current_time])
+    case params[:type].to_s
+      when "local"
+        user.local_ip = params[:ip].to_s
+      when "v6"
+        user.ipv6 = params[:ip].to_s
+      when "public"
+        user.public_ip = params[:ip].to_s
+    end 
     user.save
   end
 

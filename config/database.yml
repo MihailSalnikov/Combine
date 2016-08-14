@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: <%= ENV["USER"] %> 
+  username: <%= ENV["USER"] %>  
 
 development:
   <<: *default
