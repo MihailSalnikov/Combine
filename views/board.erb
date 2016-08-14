@@ -41,11 +41,8 @@
                   </div>
                   <div class="modal-body">
                     <pre id="modal_<%= u.time %>">
-                      
+                      <%= Whois::Client.new().lookup(u.ip).to_s %>
                     </pre>
-                    <script type="text/javascript">
-                      document.getElementById("modal_<%= u.time %>").innerHTML = JSON.stringify(<%= Whois::Client.new().lookup("188.166.37.155").to_json %>, undefined, 2);
-                    </script>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
