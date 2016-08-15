@@ -31,6 +31,7 @@ class Combine < Sinatra::Base
     user.save
   end
 
+
   get '/board' do
     @users = User.all.order('time DESC')
     erb :board
