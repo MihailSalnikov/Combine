@@ -31,6 +31,9 @@ class Combine < Sinatra::Base
     user.save
   end
 
+  get '/who_is/:ip' do
+    Whois::Client.new().lookup(params[:ip].to_s).to_s
+  end
 
   get '/board' do
     @users = User.all.order('time DESC')
